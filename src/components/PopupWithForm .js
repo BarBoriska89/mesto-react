@@ -15,7 +15,7 @@ function PopupWithForm(props) {
                 <form className="popup__form" id={props.name} name="editForm" noValidate onSubmit={props.onSubmit}>
                     <h2 className="popup__title">{props.title}</h2>
                     {props.children}
-                    <button className="popup__button" type="submit" aria-label="Сохранить изменения">Сохранить</button>
+                    <button className="popup__button" type="submit" aria-label="Сохранить изменения">{props.buttonText}</button>
                 </form>
             </div>
         </div>

@@ -78,6 +78,7 @@ function App() {
       <PopupWithForm
         isOpen={isDeleteCardPopupOpen}
         title={"Вы уверены?"}
+        buttonText={"Сохранить"}
         name={"delete-place"}
         onClose={closeAllPopups}
       />

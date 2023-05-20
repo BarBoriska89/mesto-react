@@ -12,6 +12,7 @@ function EditAvatarPopup({ isOpen, onClose }) {
             onClose={onClose}
             title={"Обновить аватар"}
             name={"edit-avatar"}
+            buttonText={"Сохранить"}
         >
 
             <div className="popup__form-section">

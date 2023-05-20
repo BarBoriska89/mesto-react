@@ -12,6 +12,7 @@ function AddPlacePopup({ isOpen, onClose }) {
             onClose={onClose}
             title={"Новое место"}
             name={"add-place"}
+            buttonText={"Создать"}
         >
             <div className="popup__form-section">
                 <input type="text" placeholder="Название" className="popup__input popup__input_type_place"

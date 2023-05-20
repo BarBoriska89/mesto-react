@@ -12,6 +12,7 @@ function EditProfilePopup({ isOpen, onClose }) {
             onClose={onClose}
             title={"Редактировать профиль"}
             name={"edit-profile"}
+            buttonText={"Сохранить"}
         >
 
             <div className="popup__form-section">

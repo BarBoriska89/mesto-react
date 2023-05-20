@@ -5,9 +5,6 @@ import closeIconPath from '../images/Close-Icon.png';
 import api from '../utils/Api';
 import Card from "./Card";
 
-let userId;
-let cardsList =[];
-
 function Main(props) {
     const [userName, setUserName] = React.useState("Gbjyt");
     const [userDescription, setUserDescription] = React.useState("dkfjbglsudbg;vudnx;lb");
@@ -24,18 +21,16 @@ function Main(props) {
 
         getInfo
             .then(([userData, cards]) => {
-                userId = userData._id;
                 setUserName(userData.name);
                 setUserDescription(userData.about);
                 setUserAvatar(userData.avatar);
-                cardsList = cards;
-                console.log(cardsList);
+                setCards(cards);
             }
             )
             .catch((err) => console.log("Ошибка запроса данных о пользователе ", err));
     }, [])
 
-  
+
 
     return (
         <main>
@@ -65,16 +60,16 @@ function Main(props) {
             <section className="elements" aria-label="Живописные места России">
                 <ul className="elements__list">
                     {
-                       cardsList.map((card) =>
-                       <Card 
-                     key={card._id}
-                     link = {card.link}
-                     name = {card.name}
-                     like= {card['likes']}
-                    onCardClick={props.onCardClick}
-                     />
-                       )
-                  }
+                        cards.map((card) =>
+                            <Card
+                                key={card._id}
+                                link={card.link}
+                                name={card.name}
+                                like={card['likes']}
+                                onCardClick={props.onCardClick}
+                            />
+                        )
+                    }
                 </ul>
             </section>
         </main>
