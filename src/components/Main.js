@@ -4,53 +4,33 @@ import plusPath from '../images/plus.svg';
 import closeIconPath from '../images/Close-Icon.png';
 import api from '../utils/Api';
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-    const [userName, setUserName] = React.useState("Gbjyt");
-    const [userDescription, setUserDescription] = React.useState("dkfjbglsudbg;vudnx;lb");
-    const [userAvatar, setUserAvatar] = React.useState("../images/ricky-kharawala-adK3Vu70DEQ-unsplash.jpg");
-    const [cards, setCards] = React.useState([]);
 
-    const promises = [api.getUser(), api.getCards()];
-
-    const getInfo = Promise.all(promises);
-
-
-
-    React.useEffect(() => {
-
-        getInfo
-            .then(([userData, cards]) => {
-                setUserName(userData.name);
-                setUserDescription(userData.about);
-                setUserAvatar(userData.avatar);
-                setCards(cards);
-            }
-            )
-            .catch((err) => console.log("Ошибка запроса данных о пользователе ", err));
-    }, [])
-
+    const currentUser = React.useContext(CurrentUserContext);
+    console.log(props);
 
 
     return (
         <main>
             <section className="profile" aria-label="Профиль пользователя">
                 <div className="profile__section-avatar">
-                    <img src={userAvatar} className="profile__avatar"
+                    <img src={currentUser.avatar} className="profile__avatar"
                         alt="Фото пользователя" />
                     <div className="profile__overlay" onClick={props.onEditAvatar}>
                     </div>
                 </div>
                 <div className="profile__info">
                     <div className="profile__info-wrapper">
-                        <h1 className="profile__info-name">{userName}</h1>
+                        <h1 className="profile__info-name">{currentUser.name}</h1>
                         <button className="profile__info-edit-button button" type="button"
                             aria-label="Редактировать профиль" onClick={props.onEditProfile}>
                             <img src={penPath} className="profile__info-button-img"
                                 alt="Изображение карандаша" />
                         </button>
                     </div>
-                    <h2 className="profile__info-profession">{userDescription}</h2>
+                    <h2 className="profile__info-profession">{currentUser.about}</h2>
                 </div>
                 <button className="profile__add-button button" type="button" aria-label="Добавить фото" onClick={props.onAddPlace}>
                     <img src={plusPath} className="profile__add-button-img" alt="Плюс" />
@@ -60,13 +40,13 @@ function Main(props) {
             <section className="elements" aria-label="Живописные места России">
                 <ul className="elements__list">
                     {
-                        cards.map((card) =>
+                        props.cards.map((card) =>
                             <Card
                                 key={card._id}
-                                link={card.link}
-                                name={card.name}
-                                like={card['likes']}
+                                {...card}
                                 onCardClick={props.onCardClick}
+                                onCardLike={props.onCardLike}
+                                onCardDelete={props.onCardDelete}
                             />
                         )
                     }
