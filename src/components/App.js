@@ -27,11 +27,12 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
-  const promises = [api.getUser(), api.getCards()];
 
-  const getInfo = Promise.all(promises);
 
   React.useEffect(() => {
+    const promises = [api.getUser(), api.getCards()];
+
+    const getInfo = Promise.all(promises);
 
     getInfo
       .then(([userData, cardList]) => {
@@ -57,8 +58,8 @@ function App() {
     setIsDeleteCardPopupOpen(true);
   }
 
-  function handleCardClick(card) {
-    setSelectedCard(card);
+  function handleCardClick(name, link) {
+    setSelectedCard({ name, link });
   }
 
   function closeAllPopups() {
@@ -73,13 +74,21 @@ function App() {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     if (!isLiked) {
-      api.addLike(card._id).then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      });
+      api.addLike(card._id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch((err) => {
+          console.log("Ошибка добавления лайка", err);
+        });
     } else {
-      api.deleteLike(card._id).then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      });
+      api.deleteLike(card._id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch((err) => {
+          console.log("Ошибка удаления лайка", err);
+        });
     }
   }
 
@@ -126,7 +135,7 @@ function App() {
         link: data.link,
       })
       .then((res) => {
-        setCards([res,...cards]);
+        setCards([res, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {

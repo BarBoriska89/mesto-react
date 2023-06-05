@@ -2,6 +2,7 @@ import React from "react";
 import closeIconPath from '../images/Close-Icon.png';
 
 function ImagePopup(props) {
+
     return (
         <div className={`popup popup_overlay ${props.card ? "popup_opened" : ""}`} id="popup-view-img">
             <div className="popup__view-container">
